@@ -47,7 +47,65 @@
     <div class="content">
         <h1>Company marende?</h1>
         <p>babysitting illel namk ipo 1.5 hour total concentrationil padikam</p>
+
+        <div style="margin-top:20px;">
+    <label>
+        <input type="radio" name="choice" value="yes" onclick="handleChoice('yes')">
+        Yes
+    </label>
+    &nbsp;&nbsp;
+    <label>
+        <input type="radio" name="choice" value="no" onclick="handleChoice('no')">
+        No
+    </label>
+</div>
+
+<p id="statusText" style="margin-top:20px; font-weight:bold;"></p>
+<p id="timer" style="font-size:24px;"></p>
+
     </div>
+<script>
+    let countdownInterval;
+
+    function handleChoice(choice) {
+        clearInterval(countdownInterval);
+
+        const statusText = document.getElementById("statusText");
+        const timerEl = document.getElementById("timer");
+
+        if (choice === "yes") {
+            statusText.textContent = "Time starts now";
+            startTimer(90 * 60); // 1.5 hours
+        } else {
+            statusText.textContent = "its alright";
+            timerEl.textContent = "";
+        }
+    }
+
+    function startTimer(seconds) {
+        const timerEl = document.getElementById("timer");
+
+        countdownInterval = setInterval(() => {
+            let hrs = Math.floor(seconds / 3600);
+            let mins = Math.floor((seconds % 3600) / 60);
+            let secs = seconds % 60;
+
+            timerEl.textContent =
+                String(hrs).padStart(2, '0') + ":" +
+                String(mins).padStart(2, '0') + ":" +
+                String(secs).padStart(2, '0');
+
+            if (seconds <= 0) {
+                clearInterval(countdownInterval);
+                timerEl.textContent = "";
+                document.getElementById("statusText").textContent =
+                    "Completed, good one";
+            }
+
+            seconds--;
+        }, 1000);
+    }
+</script>
 
 </body>
 </html>
